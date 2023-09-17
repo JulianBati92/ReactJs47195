@@ -1,9 +1,8 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
-import Navbar from "./components/Navbar.jsx";
-import Footer from "./components/Footer.jsx";
-import CartWidget from "./components/CartWidget.jsx";
-import ItemListContainer from "./components/ItemListContainer.jsx";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import ItemListContainer from "./components/ItemListContainer";
 
 const sections = [
   {
@@ -44,12 +43,7 @@ function App() {
   return (
     <div>
       <Navbar />
-      <CartWidget />
-      <div className="container mt-4 text-center">
-        <h1>Bienvenido a "Tu Matteoli"</h1>
-        <p>Descubre la cultura y tradición del mate argentino, una infusión que forma parte de nuestra identidad. Aquí encontrarás información sobre cómo preparar el mate, sus beneficios para la salud y mucho más.</p>
-      </div>
-      <ItemListContainer /> {/* Renderiza los productos desde ItemListContainer */}
+      <ItemListContainer greeting="¡Bienvenido a nuestra tienda en línea de mate argentino!" />
       <div className="container mt-4 text-center">
         <div className="row">
           {sections.map((section, index) => (
