@@ -1,49 +1,46 @@
-import React from 'react';
+// Navbar.js
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { BiCart } from 'react-icons/bi';
 import CartWidget from './CartWidget';
 
 function Navbar() {
+  const [categories, setCategories] = useState([]);
   const numeroDeItemsEnCarrito = 5;
+
+  useEffect(() => {
+    fetch('https://fakestoreapi.com/products/categories')
+      .then(res => res.json())
+      .then(json => setCategories(json));
+  }, []);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a className="navbar-brand" href="#">
+      <Link className="navbar-brand" to="/">
         Tu Matteoli
-      </a>
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
+      </Link>
       <div className="collapse navbar-collapse" id="navbarNav">
         <ul className="navbar-nav">
-          <li className="nav-item active">
-            <a className="nav-link" href="#">
+          <li className="nav-item">
+            <Link className="nav-link" to="/">
               Principal
-            </a>
+            </Link>
           </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#">
-              Conócenos más
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#">
-              Tienda
-            </a>
-          </li>
+          {categories.map((category) => (
+            <li className="nav-item" key={category}>
+              <Link className="nav-link" to={`/category/${category}`}>
+                Categoría {category}
+              </Link>
+            </li>
+          ))}
         </ul>
       </div>
       <div className="ml-auto">
         <ul className="navbar-nav">
           <li className="nav-item">
-            <CartWidget numeroDeItemsEnCarrito={numeroDeItemsEnCarrito} />
+            <Link className="nav-link" to="/">
+              <CartWidget numeroDeItemsEnCarrito={numeroDeItemsEnCarrito} />
+            </Link>
           </li>
         </ul>
       </div>
@@ -52,3 +49,4 @@ function Navbar() {
 }
 
 export default Navbar;
+
