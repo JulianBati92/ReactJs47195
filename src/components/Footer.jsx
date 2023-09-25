@@ -1,8 +1,11 @@
 import React from 'react';
+import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
 
 const Footer = () => {
+  const iconSize = 30; // Tamaño de los iconos en píxeles
+
   return (
-    <footer className="bg-dark text-white p-4" style={{ position: 'fixed', bottom: '0', width: '100%' }}>
+    <footer className="bg-dark text-white p-4" style={{ position: 'fixed', bottom: '0', width: '100%', marginTop: '60px' }}>
       <div className="container">
         <div className="row">
           <div className="col-md-6">
@@ -20,7 +23,17 @@ const Footer = () => {
               Teléfono: (123) 456-7890<br/>
               Correo Electrónico: info@tumatteoli.com<br/>
               Redes Sociales: 
-              <a href="#">Facebook</a> | <a href="#">Twitter</a> | <a href="#">Instagram</a>
+              <a href="#" style={{ fontSize: iconSize }}>
+                <FaFacebook />
+              </a>
+              {' '}
+              <a href="#" style={{ fontSize: iconSize }}>
+                <FaTwitter />
+              </a>
+              {' '}
+              <a href="#" style={{ fontSize: iconSize }}>
+                <FaInstagram />
+              </a>
             </p>
           </div>
         </div>
@@ -30,3 +43,4 @@ const Footer = () => {
 }
 
 export default Footer;
+

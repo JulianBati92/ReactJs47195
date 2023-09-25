@@ -20,14 +20,14 @@ const ItemDetailContainer = () => {
           <h2>{item.title}</h2>
           <img src={item.image} alt={item.title} style={{ width: '200px' }} />
           <p>{item.description}</p>
-          <p>Precio: {item.price} USD</p>
+          <p>Precio: {item.price} USDC</p>
           <p>Categoria: {item.category}</p>
         </div>
       ) : (
         <p>Cargando productos...</p>
       )}
     </div>
-  );
+  );S
 };
 
 export default ItemDetailContainer;

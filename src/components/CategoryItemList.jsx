@@ -1,29 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 const CategoryItemList = () => {
+  const [categoryProducts, setCategoryProducts] = useState([]);
   const { id } = useParams();
-  const [items, setItems] = useState([]);
 
   useEffect(() => {
+    // Fetch products based on the category
     fetch(`https://fakestoreapi.com/products/category/${id}`)
-      .then(res => res.json())
-      .then(json => setItems(json));
+      .then((response) => response.json())
+      .then((data) => setCategoryProducts(data));
   }, [id]);
 
   return (
-    <div className="container mt-4">
-      <h2>Productos en categorias {id}</h2>
+    <div className="container mt-4 text-center" style={{ marginBottom: '200px' }}>
+      <h1>{id}</h1>
+
       <div className="row">
-        {items.map(item => (
-          <div className="col-md-4 mb-4" key={item.id}>
-            <div className="card">
-              <img src={item.image} alt={item.title} className="card-img-top" />
+        {categoryProducts.map((product) => (
+          <div className="col-md-4" key={product.id}>
+            <div className="card mb-4">
+              <img src={product.image} className="card-img-top" alt={product.title} />
               <div className="card-body">
-                <h5 className="card-title">{item.title}</h5>
-                <p className="card-text">Price: {item.price} USD</p>
-                <p className="card-text">Category: {item.category}</p>
-                <p className="card-text">{item.description}</p>
+                <h5 className="card-title">{product.title}</h5>
+                <p className="card-text">{product.description}</p>
+                <p className="card-text">Precio: {product.price} U$S</p>
               </div>
             </div>
           </div>
@@ -34,4 +35,3 @@ const CategoryItemList = () => {
 };
 
 export default CategoryItemList;
-
