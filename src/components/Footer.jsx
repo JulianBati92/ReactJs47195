@@ -1,8 +1,8 @@
 import React from 'react';
 
-function Footer() {
+const Footer = () => {
   return (
-    <footer className="bg-dark text-white p-4">
+    <footer className="bg-dark text-white p-4" style={{ position: 'fixed', bottom: '0', width: '100%' }}>
       <div className="container">
         <div className="row">
           <div className="col-md-6">

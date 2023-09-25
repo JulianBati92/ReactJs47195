@@ -1,29 +1,33 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-function ItemDetailContainer({ match }) {
+const ItemDetailContainer = () => {
+  const { id } = useParams();
   const [item, setItem] = useState(null);
 
   useEffect(() => {
-    fetch(`https://fakestoreapi.com/products/${match.params.id}`)
+    fetch(`https://fakestoreapi.com/products/${id}`)
       .then(res => res.json())
       .then(json => {
         setItem(json);
       });
-  }, [match.params.id]);
+  }, [id]);
 
   return (
     <div className="container mt-4 text-center">
       {item ? (
         <div>
           <h2>{item.title}</h2>
+          <img src={item.image} alt={item.title} style={{ width: '200px' }} />
           <p>{item.description}</p>
-          <p>Precio: {item.price} USDC</p>
+          <p>Precio: {item.price} USD</p>
+          <p>Categoria: {item.category}</p>
         </div>
       ) : (
-        <p>Cargando Items...</p>
+        <p>Cargando productos...</p>
       )}
     </div>
   );
-}
+};
 
 export default ItemDetailContainer;
