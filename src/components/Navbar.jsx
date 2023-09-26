@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BiCart } from 'react-icons/bi';
-import CartWidget from './CartWidget'; 
+import CartWidget from './CartWidget';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Import Bootstrap JavaScript
 
 const Navbar = () => {
   const [categories, setCategories] = useState([]);
-  const cartItemCount = 5; // Reemplaza esto con tu lógica real para obtener la cantidad de ítems en el carrito
+  const cartItemCount = 5; // Replace with your actual cart item count logic
 
   useEffect(() => {
     fetch('https://fakestoreapi.com/products/categories')
@@ -14,7 +16,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark" >
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container">
         <a className="navbar-brand" href="#">
           Tu Matteoli
@@ -22,8 +24,8 @@ const Navbar = () => {
         <button
           className="navbar-toggler"
           type="button"
-          data-toggle="collapse"
-          data-target="#navbarNav"
+          data-bs-toggle="collapse" // Use data-bs-toggle instead of data-toggle
+          data-bs-target="#navbarNav"
           aria-controls="navbarNav"
           aria-expanded="false"
           aria-label="Toggle navigation"
@@ -62,3 +64,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
