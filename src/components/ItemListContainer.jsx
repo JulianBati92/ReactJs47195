@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';  // Importa Link de react-router-dom
+import ItemDetailContainer from './ItemDetailContainer';
 
 const ItemListContainer = ({ greeting }) => {
   const [products, setProducts] = useState([]);
@@ -24,6 +26,9 @@ const ItemListContainer = ({ greeting }) => {
                 <h5 className="card-title">{product.title}</h5>
                 <p className="card-text">{product.description}</p>
                 <p className="card-text">Precio: {product.price} U$S </p>
+                <Link to={`/item/${product.id}`} className="btn btn-primary">
+                  Detalles
+                </Link>
               </div>
             </div>
           </div>

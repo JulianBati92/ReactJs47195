@@ -1,11 +1,15 @@
+// CategoryItemList.jsx
+
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom'; // Importa useParams
+import ItemDetailContainer from './ItemDetailContainer';
 
 const CategoryItemList = () => {
   const [categoryProducts, setCategoryProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const { id } = useParams();
+  const { id } = useParams(); // Obtén el id de los parámetros
 
   useEffect(() => {
     setLoading(true);
@@ -39,6 +43,9 @@ const CategoryItemList = () => {
                   <h5 className="card-title">{product.title}</h5>
                   <p className="card-text">{product.description}</p>
                   <p className="card-text">Precio: {product.price} U$S</p>
+                  <Link to={`/item/${product.id}`} className="btn btn-primary">
+                    Detalles
+                  </Link>
                 </div>
               </div>
             </div>
@@ -50,4 +57,5 @@ const CategoryItemList = () => {
 };
 
 export default CategoryItemList;
+
 

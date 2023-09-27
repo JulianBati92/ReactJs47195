@@ -18,9 +18,9 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container">
-        <a className="navbar-brand" href="#">
+        <Link className="navbar-brand" to="/">
           Tu Matteoli
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -34,11 +34,6 @@ const Navbar = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
-            <li className="nav-item active">
-              <Link className="nav-link" to="/">
-                Principal
-              </Link>
-            </li>
             {categories.map(category => (
               <li className="nav-item" key={category}>
                 <Link className="nav-link" to={`/category/${category}`}>
