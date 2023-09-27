@@ -5,7 +5,7 @@ const Footer = () => {
   const iconSize = 30; // Tamaño de los iconos en píxeles
 
   return (
-    <footer className="bg-dark text-white p-4" style={{ bottom: '0', width: '100%', marginTop: '60px' }}>
+    <footer className="bg-dark text-white p-4">
       <div className="container">
         <div className="row">
           <div className="col-md-6">
@@ -43,4 +43,3 @@ const Footer = () => {
 }
 
 export default Footer;
-

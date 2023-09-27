@@ -1,16 +1,13 @@
-// CategoryItemList.jsx
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom'; // Importa useParams
+import { useParams } from 'react-router-dom'; 
 import ItemDetailContainer from './ItemDetailContainer';
 
 const CategoryItemList = () => {
   const [categoryProducts, setCategoryProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const { id } = useParams(); // Obtén el id de los parámetros
-
+  const { id } = useParams(); 
   useEffect(() => {
     setLoading(true);
 
