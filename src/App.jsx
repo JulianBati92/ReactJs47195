@@ -10,6 +10,7 @@ import Formulario from './components/Form';
 import { createRoot } from 'react-dom';
 import Checkout from './components/Checkout';
 
+
 const App = () => {
   return (
     <Router>

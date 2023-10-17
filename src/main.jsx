@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { initializeApp } from 'firebase/app';
+import {getFirestore} from 'firebase/firestore'
 import App from './App';
 
 
@@ -15,6 +16,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app)
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

@@ -1,25 +1,17 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { getDatabase, ref, get } from 'firebase/database';
+import { CartContext } from './CartContext';  
 
-const ItemDetailContainer = () => {
+const ItemDetailContainer = ({ firestore, database }) => {
   const { id } = useParams();
   const [item, setItem] = useState(null);
   const detailsRef = useRef(null);
+  const [cartItemQuantity, setCartItemQuantity] = useState(0);
+
+  const { addToCart, removeFromCart } = useContext(CartContext);
 
   useEffect(() => {
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyBUd0NzHHzfTCOBUP-7rYMxn7MO9qsHGwA",
-      authDomain: "proyectoreactjsmatteoli.firebaseapp.com",
-      projectId: "proyectoreactjsmatteoli",
-      storageBucket: "proyectoreactjsmatteoli.appspot.com",
-      messagingSenderId: "796504982551",
-      appId: "1:796504982551:web:468aaa9f504abe74c74852"
-    };
-
-    const database = getDatabase();
-
     const productRef = ref(database, `products/${id}`);
     get(productRef)
       .then((snapshot) => {
@@ -33,7 +25,7 @@ const ItemDetailContainer = () => {
       .catch((error) => {
         console.error('Error al obtener el producto: ', error);
       });
-  }, [id]);
+  }, [id, database]);
 
   const handleAddToCart = () => {
     addToCart(item);

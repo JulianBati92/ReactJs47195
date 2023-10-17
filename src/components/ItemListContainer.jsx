@@ -1,12 +1,11 @@
+import { getDatabase, ref, get } from 'firebase/database';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getDatabase, ref, get } from 'firebase/database';
 
 const ItemListContainer = ({ greeting }) => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-
     const firebaseConfig = {
       apiKey: "AIzaSyBUd0NzHHzfTCOBUP-7rYMxn7MO9qsHGwA",
       authDomain: "proyectoreactjsmatteoli.firebaseapp.com",
@@ -17,7 +16,6 @@ const ItemListContainer = ({ greeting }) => {
     };
 
     const database = getDatabase();
-
 
     const productsRef = ref(database, 'products');
     get(productsRef)
@@ -30,7 +28,7 @@ const ItemListContainer = ({ greeting }) => {
       .catch((error) => {
         console.error('Error al obtener productos: ', error);
       });
-  }, []); 
+  }, []);
 
   return (
     <div className="container mt-4 text-center" style={{ marginBottom: '200px' }}>
@@ -58,5 +56,3 @@ const ItemListContainer = ({ greeting }) => {
 };
 
 export default ItemListContainer;
-
-
