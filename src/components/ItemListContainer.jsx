@@ -1,34 +1,28 @@
-import { getDatabase, ref, get } from 'firebase/database';
+import { collection, getDocs } from 'firebase/firestore';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { db } from '../main';
 
 const ItemListContainer = ({ greeting }) => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    const firebaseConfig = {
-      apiKey: "AIzaSyBUd0NzHHzfTCOBUP-7rYMxn7MO9qsHGwA",
-      authDomain: "proyectoreactjsmatteoli.firebaseapp.com",
-      projectId: "proyectoreactjsmatteoli",
-      storageBucket: "proyectoreactjsmatteoli.appspot.com",
-      messagingSenderId: "796504982551",
-      appId: "1:796504982551:web:468aaa9f504abe74c74852"
+    const fetchData = async () => {
+      try {
+        const coleccionProductos = collection(db, "products");
+        const querySnapshot = await getDocs(coleccionProductos);
+        const productsList = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setProducts(productsList);
+      } catch (error) {
+        console.error('Error al obtener los productos: ', error);
+      }
     };
 
-    const database = getDatabase();
-
-    const productsRef = ref(database, 'products');
-    get(productsRef)
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          const productsData = Object.values(snapshot.val());
-          setProducts(productsData);
-        }
-      })
-      .catch((error) => {
-        console.error('Error al obtener productos: ', error);
-      });
-  }, []);
+    fetchData();
+  }, []); 
 
   return (
     <div className="container mt-4 text-center" style={{ marginBottom: '200px' }}>
@@ -42,7 +36,7 @@ const ItemListContainer = ({ greeting }) => {
               <img src={product.image} className="card-img-top" alt={product.title} />
               <div className="card-body">
                 <h5 className="card-title">{product.title}</h5>
-                <p className="card-text">Precio: {product.price} U$S </p>
+                <p className="card-text">Precio: $ {product.price} </p>
                 <Link to={`/item/${product.id}`} className="btn btn-primary">
                   Detalles
                 </Link>
@@ -56,3 +50,4 @@ const ItemListContainer = ({ greeting }) => {
 };
 
 export default ItemListContainer;
+

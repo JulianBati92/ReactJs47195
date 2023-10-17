@@ -1,41 +1,47 @@
-import React, { useEffect, useState, useRef, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { getDatabase, ref, get } from 'firebase/database';
-import { CartContext } from './CartContext';  
+import { db } from '../main';
+import { collection, doc, getDoc } from 'firebase/firestore';
+import { CartContext } from './CartContext';
 
-const ItemDetailContainer = ({ firestore, database }) => {
+const ItemDetailContainer = () => {
   const { id } = useParams();
   const [item, setItem] = useState(null);
-  const detailsRef = useRef(null);
   const [cartItemQuantity, setCartItemQuantity] = useState(0);
-
   const { addToCart, removeFromCart } = useContext(CartContext);
 
-  useEffect(() => {
-    const productRef = ref(database, `products/${id}`);
-    get(productRef)
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          setItem(snapshot.val());
-          if (detailsRef.current) {
-            detailsRef.current.scrollIntoView({ behavior: 'smooth' });
-          }
-        }
-      })
-      .catch((error) => {
-        console.error('Error al obtener el producto: ', error);
-      });
-  }, [id, database]);
-
   const handleAddToCart = () => {
-    addToCart(item);
-    setCartItemQuantity((prevQuantity) => prevQuantity + 1);
+    if (item) {
+      addToCart(item);
+      setCartItemQuantity((prevQuantity) => prevQuantity + 1);
+    }
   };
 
   const handleRemoveFromCart = () => {
-    removeFromCart(item.id);
-    setCartItemQuantity((prevQuantity) => prevQuantity - 1);
+    if (item) {
+      removeFromCart(item.id);
+      setCartItemQuantity((prevQuantity) => prevQuantity - 1);
+    }
   };
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const productRef = doc(collection(db, 'products'), id);
+        const productSnapshot = await getDoc(productRef);
+
+        if (productSnapshot.exists()) {
+          setItem({ id: productSnapshot.id, ...productSnapshot.data() });
+        } else {
+          console.log('No se encontró el producto.');
+        }
+      } catch (error) {
+        console.error('Error al obtener el producto:', error);
+      }
+    };
+
+    fetchProduct();
+  }, [id]);
 
   return (
     <div className="container mt-4 text-center">
@@ -64,10 +70,10 @@ const ItemDetailContainer = ({ firestore, database }) => {
         )}
       </div>
 
-      <div ref={detailsRef} />
       <div style={{ height: '200px' }} />
     </div>
   );
 };
 
 export default ItemDetailContainer;
+

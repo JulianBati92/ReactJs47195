@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { CartContext } from './CartContext'; 
+import { CartContext } from './CartContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Navbar = () => {
@@ -16,7 +16,9 @@ const Navbar = () => {
   const { cartItems } = cartContext;
 
   useEffect(() => {
-    setCartItemCount(cartItems.length);
+    // Calcula la cantidad total de productos en el carrito
+    const totalItemsInCart = cartItems.reduce((total, item) => total + item.quantity, 0);
+    setCartItemCount(totalItemsInCart);
   }, [cartItems]);
 
   return (
@@ -43,7 +45,6 @@ const Navbar = () => {
             </li>
             <li className="nav-item">
               <button className="nav-link btn btn-link" onClick={toggleCart}>
-                <i className="bi bi-cart"></i>
                 Carrito ({cartItemCount})
               </button>
             </li>
@@ -66,6 +67,11 @@ const Navbar = () => {
                   <img src={item.image} alt={item.name} style={{ width: '50px', height: '50px' }} />
                   <p className="text-white">{item.name}</p>
                   <p className="text-white">Precio: ${item.price}</p>
+                  {/* Botón para eliminar del carrito */}
+                  {/* onClick={() => removeFromCart(item.id)} */}
+                  <button className="btn btn-danger">
+                    Eliminar del carrito
+                  </button>
                 </li>
               ))}
             </ul>
@@ -79,6 +85,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
 
 
