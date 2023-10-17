@@ -1,27 +1,44 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom'; 
-import ItemDetailContainer from './ItemDetailContainer';
+import { Link, useParams } from 'react-router-dom';
+import { getDatabase, ref, get } from 'firebase/database';
 
 const CategoryItemList = () => {
   const [categoryProducts, setCategoryProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const { id } = useParams(); 
+  const { id } = useParams();
   useEffect(() => {
     setLoading(true);
 
-    fetch(`https://fakestoreapi.com/products/category/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setCategoryProducts(data);
-        setLoading(false);
+    const firebaseConfig = {
+      apiKey: "AIzaSyBUd0NzHHzfTCOBUP-7rYMxn7MO9qsHGwA",
+      authDomain: "proyectoreactjsmatteoli.firebaseapp.com",
+      projectId: "proyectoreactjsmatteoli",
+      storageBucket: "proyectoreactjsmatteoli.appspot.com",
+      messagingSenderId: "796504982551",
+      appId: "1:796504982551:web:468aaa9f504abe74c74852"
+    };
+
+    const database = getDatabase();
+
+    const categoryProductsRef = ref(database, 'products');
+    get(categoryProductsRef)
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const productsData = Object.values(snapshot.val());
+          const filteredProducts = productsData.filter(product => product.categoryId === parseInt(id));
+          setCategoryProducts(filteredProducts);
+          setLoading(false);
+        }
+      })
+      .catch((error) => {
+        console.error('Error al obtener productos desde Firebase: ', error);
       });
   }, [id]);
 
   return (
     <div className="container mt-4 text-center" style={{ marginBottom: '200px' }}>
-      <h1>{id}</h1>
+      <h1>Categoría {id}</h1>
 
       {loading && (
         <div>

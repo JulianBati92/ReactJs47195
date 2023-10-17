@@ -1,16 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';  // Importa Link de react-router-dom
-import ItemDetailContainer from './ItemDetailContainer';
+import { Link } from 'react-router-dom';
+import { getDatabase, ref, get } from 'firebase/database';
 
 const ItemListContainer = ({ greeting }) => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    // Fetch products data
-    fetch('https://fakestoreapi.com/products')
-      .then((response) => response.json())
-      .then((data) => setProducts(data));
-  }, []);
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBUd0NzHHzfTCOBUP-7rYMxn7MO9qsHGwA",
+      authDomain: "proyectoreactjsmatteoli.firebaseapp.com",
+      projectId: "proyectoreactjsmatteoli",
+      storageBucket: "proyectoreactjsmatteoli.appspot.com",
+      messagingSenderId: "796504982551",
+      appId: "1:796504982551:web:468aaa9f504abe74c74852"
+    };
+
+    const database = getDatabase();
+
+
+    const productsRef = ref(database, 'products');
+    get(productsRef)
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const productsData = Object.values(snapshot.val());
+          setProducts(productsData);
+        }
+      })
+      .catch((error) => {
+        console.error('Error al obtener productos: ', error);
+      });
+  }, []); 
 
   return (
     <div className="container mt-4 text-center" style={{ marginBottom: '200px' }}>
