@@ -20,7 +20,7 @@ const Checkout = () => {
     setCartItems([]); 
   };
 
-  return (
+return (
     <div className="container">
       <h1>Checkout</h1>
       {cartItems.length === 0 ? (
@@ -31,7 +31,11 @@ const Checkout = () => {
             <div key={item.id} className="card mb-3">
               <div className="row g-0">
                 <div className="col-md-4">
-                  <img src={item.image} alt={item.title} className="img-fluid" />
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    style={{ width: '200px', height: '250px' }}
+                  />
                 </div>
                 <div className="col-md-8">
                   <div className="card-body">

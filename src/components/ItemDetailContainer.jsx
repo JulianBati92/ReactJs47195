@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { db } from '../main';
 import { collection, doc, getDoc } from 'firebase/firestore';
 import { CartContext } from './CartContext';
-import Counter from './Counter'; // Importa el componente Counter
+import Counter from './Counter'; 
 
 const ItemDetailContainer = () => {
   const { id } = useParams();
@@ -13,7 +13,7 @@ const ItemDetailContainer = () => {
 
   const handleAddToCart = (quantity) => {
     if (item && quantity > 0) {
-      addToCart({ ...item, quantity }); // Pasar la cantidad al addToCart
+      addToCart({ ...item, quantity }); 
       setCartItemQuantity(quantity);
     }
   };
@@ -49,7 +49,11 @@ const ItemDetailContainer = () => {
       {item ? (
         <div>
           <h2>{item.title}</h2>
-          <img src={item.image} alt={item.title} className="img-fluid" />
+          <img
+            src={item.image}
+            alt={item.title}
+            style={{ width: '400px', height: '600px' }} 
+          />
           <p>{item.description}</p>
           <p>Precio: {item.price} USD</p>
         </div>
