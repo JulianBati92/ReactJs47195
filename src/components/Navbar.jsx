@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { CartContext } from './CartContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BsCart3 } from 'react-icons/bs'; 
+import { BsCart3 } from 'react-icons/bs';
 
 const Navbar = () => {
   const navbarLogo = 'Tu Matteoli';
@@ -59,11 +59,16 @@ const Navbar = () => {
             <ul>
               {cartItems.map((item) => (
                 <li key={item.id}>
-                  <img src={item.image} alt={item.name} style={{ width: '50px', height: '50px' }} />
-                  <p className="text-white">{item.name}</p>
-                  <p className="text-white">Precio: ${item.price}</p>
+                  <img src={item.image} alt={item.title} style={{ width: '50px', height: '50px' }} />
+                  <p className="text-white">{item.title}</p>
+                  <p className="text-white">Cantidad: {item.quantity}</p>
+                  <p className="text-white">Precio unitario: ${item.price}</p>
                 </li>
               ))}
+              <p className="text-white">Total a pagar: ${cartItems.reduce((total, item) => total + item.price * item.quantity, 0)}</p>
+              <Link to="/checkout" className="btn btn-primary">
+                Ir al checkout
+              </Link>
             </ul>
           ) : (
             <p className="text-white">No hay productos en el carrito</p>
@@ -75,5 +80,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
 
