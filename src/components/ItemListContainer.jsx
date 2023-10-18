@@ -33,7 +33,7 @@ const ItemListContainer = ({ greeting }) => {
         {products.map((product) => (
           <div className="col-md-4" key={product.id}>
             <div className="card mb-4">
-              <img src={product.image} className="card-img-top" alt={product.title} />
+              <img src={product.image} className="card-img-top" alt={product.title} style={{ height: '600px', objectFit: '' }} />
               <div className="card-body">
                 <h5 className="card-title">{product.title}</h5>
                 <p className="card-text">Precio: $ {product.price} </p>
@@ -50,4 +50,5 @@ const ItemListContainer = ({ greeting }) => {
 };
 
 export default ItemListContainer;
+
 
