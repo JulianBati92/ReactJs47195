@@ -2,17 +2,22 @@ import React, { useContext } from 'react';
 import { CartContext } from './CartContext';
 
 const Checkout = () => {
-  const { cartItems } = useContext(CartContext);
+  const { cartItems, removeFromCart, setCartItems } = useContext(CartContext);
 
-  // Función para calcular el total a pagar
   const calculateTotalPrice = () => {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
   const handlePlaceOrder = () => {
-    // Puedes usar el total calculado para mostrarlo en la alerta
     const totalPrice = calculateTotalPrice();
     alert(`Gracias por tu compra. Total a pagar: $${totalPrice}. Pronto nos comunicaremos contigo vía email.`);
+  };
+
+  const handleEmptyCart = () => {
+    cartItems.forEach(item => {
+      removeFromCart(item.id);
+    });
+    setCartItems([]); 
   };
 
   return (
@@ -41,6 +46,9 @@ const Checkout = () => {
           <p>Total a pagar: ${calculateTotalPrice()}</p>
           <button className="btn btn-primary" onClick={handlePlaceOrder}>
             Realizar Pedido
+          </button>
+          <button className="btn btn-danger" onClick={handleEmptyCart}>
+            Vaciar Carrito
           </button>
         </div>
       )}
