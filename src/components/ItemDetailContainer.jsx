@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { db } from '../main';
 import { collection, doc, getDoc } from 'firebase/firestore';
 import { CartContext } from './CartContext';
+import Counter from './Counter'; // Importa el componente Counter
 
 const ItemDetailContainer = () => {
   const { id } = useParams();
@@ -10,17 +11,17 @@ const ItemDetailContainer = () => {
   const [cartItemQuantity, setCartItemQuantity] = useState(0);
   const { addToCart, removeFromCart } = useContext(CartContext);
 
-  const handleAddToCart = () => {
-    if (item) {
-      addToCart(item);
-      setCartItemQuantity((prevQuantity) => prevQuantity + 1);
+  const handleAddToCart = (quantity) => {
+    if (item && quantity > 0) {
+      addToCart({ ...item, quantity }); // Pasar la cantidad al addToCart
+      setCartItemQuantity(quantity);
     }
   };
 
   const handleRemoveFromCart = () => {
     if (item) {
       removeFromCart(item.id);
-      setCartItemQuantity((prevQuantity) => prevQuantity - 1);
+      setCartItemQuantity(0);
     }
   };
 
@@ -57,9 +58,11 @@ const ItemDetailContainer = () => {
       )}
 
       <div>
-        <button onClick={handleAddToCart} className="btn btn-primary">
-          Agregar al carrito
-        </button>
+        <Counter
+          onAdd={handleAddToCart}
+          text="Agregar al carrito"
+          q={1}
+        />
         {cartItemQuantity > 0 && (
           <button onClick={handleRemoveFromCart} className="btn btn-secondary">
             Quitar del carrito

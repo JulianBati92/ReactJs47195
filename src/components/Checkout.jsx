@@ -4,8 +4,15 @@ import { CartContext } from './CartContext';
 const Checkout = () => {
   const { cartItems } = useContext(CartContext);
 
+  // Función para calcular el total a pagar
+  const calculateTotalPrice = () => {
+    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  };
+
   const handlePlaceOrder = () => {
-    alert('Gracias por tu compra. Pronto nos comunicaremos contigo vía email.');
+    // Puedes usar el total calculado para mostrarlo en la alerta
+    const totalPrice = calculateTotalPrice();
+    alert(`Gracias por tu compra. Total a pagar: $${totalPrice}. Pronto nos comunicaremos contigo vía email.`);
   };
 
   return (
@@ -31,6 +38,7 @@ const Checkout = () => {
               </div>
             </div>
           ))}
+          <p>Total a pagar: ${calculateTotalPrice()}</p>
           <button className="btn btn-primary" onClick={handlePlaceOrder}>
             Realizar Pedido
           </button>
