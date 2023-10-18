@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { CartContext } from './CartContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { BsCart3 } from 'react-icons/bs'; 
 
 const Navbar = () => {
   const navbarLogo = 'Tu Matteoli';
@@ -16,7 +17,6 @@ const Navbar = () => {
   const { cartItems } = cartContext;
 
   useEffect(() => {
-    // Calcula la cantidad total de productos en el carrito
     const totalItemsInCart = cartItems.reduce((total, item) => total + item.quantity, 0);
     setCartItemCount(totalItemsInCart);
   }, [cartItems]);
@@ -45,16 +45,11 @@ const Navbar = () => {
             </li>
             <li className="nav-item">
               <button className="nav-link btn btn-link" onClick={toggleCart}>
-                Carrito ({cartItemCount})
+                <BsCart3 />
+                <span className="ms-1">({cartItemCount})</span>
               </button>
             </li>
           </ul>
-          <form className="d-flex">
-            <input className="form-control me-2" type="search" placeholder="Busca tus Matteoli" aria-label="Search" />
-            <button className="btn btn-outline-success" type="submit">
-              Buscar
-            </button>
-          </form>
         </div>
       </div>
       {cartOpen && (
@@ -67,8 +62,6 @@ const Navbar = () => {
                   <img src={item.image} alt={item.name} style={{ width: '50px', height: '50px' }} />
                   <p className="text-white">{item.name}</p>
                   <p className="text-white">Precio: ${item.price}</p>
-                  {/* Botón para eliminar del carrito */}
-                  {/* onClick={() => removeFromCart(item.id)} */}
                   <button className="btn btn-danger">
                     Eliminar del carrito
                   </button>

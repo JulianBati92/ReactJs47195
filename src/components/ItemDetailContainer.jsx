@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { db } from '../main';
 import { collection, doc, getDoc } from 'firebase/firestore';
 import { CartContext } from './CartContext';
@@ -68,6 +68,9 @@ const ItemDetailContainer = () => {
         {cartItemQuantity > 0 && (
           <p className="mt-2">Cantidad en el carrito: {cartItemQuantity}</p>
         )}
+        <Link to="/checkout" className="btn btn-success">
+          Ir al checkout
+        </Link>
       </div>
 
       <div style={{ height: '200px' }} />
