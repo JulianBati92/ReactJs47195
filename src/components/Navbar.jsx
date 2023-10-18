@@ -62,9 +62,6 @@ const Navbar = () => {
                   <img src={item.image} alt={item.name} style={{ width: '50px', height: '50px' }} />
                   <p className="text-white">{item.name}</p>
                   <p className="text-white">Precio: ${item.price}</p>
-                  <button className="btn btn-danger">
-                    Eliminar del carrito
-                  </button>
                 </li>
               ))}
             </ul>
