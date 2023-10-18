@@ -8,6 +8,7 @@ import ItemDetailContainer from './components/ItemDetailContainer';
 import CategoryItemList from './components/CategoryItemList';
 import Formulario from './components/Form';
 import Checkout from './components/Checkout';
+import Terminos from './components/Terminos';
 
 import { CartContextProvider } from './components/CartContext';
 
@@ -15,21 +16,27 @@ const App = () => {
   return (
     <CartContextProvider>
       <Router>
-        <Navbar />
-        <Routes>
-          <Route
-            path="/"
-            element={<ItemListContainer greeting="¡Bienvenido a nuestra tienda en línea de mate argentino!" />}
-          />
-          <Route path="/category/:id" element={<CategoryItemList />} />
-          <Route path="/item/:id" element={<ItemDetailContainer />} />
-          <Route path="/contacto" element={<Formulario />} />
-          <Route path="/checkout" element={<Checkout />} />
-        </Routes>
-        <Footer />
+        <div className="d-flex flex-column min-vh-100">
+          <Navbar />
+          <div className="flex-grow-1">
+            <Routes>
+              <Route
+                path="/"
+                element={<ItemListContainer greeting="¡Bienvenido a nuestra tienda en línea de mate argentino!" />}
+              />
+              <Route path="/category/:id" element={<CategoryItemList />} />
+              <Route path="/item/:id" element={<ItemDetailContainer />} />
+              <Route path="/contacto" element={<Formulario />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/terminos" element={<Terminos />} />
+            </Routes>
+          </div>
+          <Footer />
+        </div>
       </Router>
     </CartContextProvider>
   );
 };
 
 export default App;
+
