@@ -72,14 +72,10 @@ const ItemDetailContainer = () => {
             Quitar del carrito
           </button>
         )}
-        {cartItemQuantity > 0 && (
-          <p className="mt-2">Cantidad en el carrito: {cartItemQuantity}</p>
-        )}
         <Link to="/checkout" className="btn btn-success">
           Ir al checkout
         </Link>
       </div>
-
       <div style={{ height: '200px' }} />
     </div>
   );

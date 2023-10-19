@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Counter = ({ onAdd, text = "Agregar al carrito", q = 1 }) => {
+const Counter = ({ onAdd, text = "Agregar al carrito", q = 1, itemId }) => {
   const [count, setCount] = useState(q);
 
   const increment = () => {
@@ -10,6 +10,16 @@ const Counter = ({ onAdd, text = "Agregar al carrito", q = 1 }) => {
   const decrement = () => {
     if (count > 1) {
       setCount(count - 1);
+    }
+  };
+
+  const handleAddToCart = () => {
+    if (itemId) {
+      // Si se proporciona un ID de elemento, verifica si el elemento ya está en el carrito
+      onAdd(itemId, count); // Pasa el ID y la cantidad al controlador de agregar al carrito
+    } else {
+      // Si no se proporciona un ID de elemento, simplemente agrega la cantidad seleccionada
+      onAdd(count);
     }
   };
 
@@ -24,7 +34,7 @@ const Counter = ({ onAdd, text = "Agregar al carrito", q = 1 }) => {
       </button>
       <button
         className="btn btn-primary ms-3"
-        onClick={() => onAdd(count)}
+        onClick={handleAddToCart}
       >
         {text}
       </button>

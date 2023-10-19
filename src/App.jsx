@@ -9,6 +9,7 @@ import CategoryItemList from './components/CategoryItemList';
 import Formulario from './components/Form';
 import Checkout from './components/Checkout';
 import Terminos from './components/Terminos';
+import OrderForm from './components/OrderForm';
 
 import { CartContextProvider } from './components/CartContext';
 
@@ -29,6 +30,7 @@ const App = () => {
               <Route path="/contacto" element={<Formulario />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/terminos" element={<Terminos />} />
+              <Route path="/order-form" element={<OrderForm />} /> 
             </Routes>
           </div>
           <Footer />
@@ -39,4 +41,3 @@ const App = () => {
 };
 
 export default App;
-

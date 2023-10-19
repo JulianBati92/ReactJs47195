@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { Link } from 'react-router-dom'; // Agregamos importación de Link
 import { CartContext } from './CartContext';
 
 const Checkout = () => {
@@ -17,10 +18,10 @@ const Checkout = () => {
     cartItems.forEach(item => {
       removeFromCart(item.id);
     });
-    setCartItems([]); 
+    setCartItems([]);
   };
 
-return (
+  return (
     <div className="container">
       <h1>Checkout</h1>
       {cartItems.length === 0 ? (
@@ -48,9 +49,9 @@ return (
             </div>
           ))}
           <p>Total a pagar: ${calculateTotalPrice()}</p>
-          <button className="btn btn-primary" onClick={handlePlaceOrder}>
-            Realizar Pedido
-          </button>
+          <Link to="/order-form"> 
+            <button className="btn btn-primary">Realizar Pedido</button>
+          </Link>
           <button className="btn btn-danger" onClick={handleEmptyCart}>
             Vaciar Carrito
           </button>
