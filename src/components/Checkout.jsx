@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom'; // Agregamos importación de Link
+import { Link } from 'react-router-dom';
 import { CartContext } from './CartContext';
 
 const Checkout = () => {
@@ -43,13 +43,14 @@ const Checkout = () => {
                     <h5 className="card-title">{item.title}</h5>
                     <p className="card-text">{item.description}</p>
                     <p className="card-text">Precio: ${item.price}</p>
+                    <p className="card-text">Cantidad: {item.quantity}</p> {/* Muestra la cantidad de este producto */}
                   </div>
                 </div>
               </div>
             </div>
           ))}
           <p>Total a pagar: ${calculateTotalPrice()}</p>
-          <Link to="/order-form"> 
+          <Link to="/order-form">
             <button className="btn btn-primary">Realizar Pedido</button>
           </Link>
           <button className="btn btn-danger" onClick={handleEmptyCart}>
@@ -62,3 +63,4 @@ const Checkout = () => {
 };
 
 export default Checkout;
+
