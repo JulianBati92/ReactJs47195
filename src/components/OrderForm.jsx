@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const OrderForm = () => {
   const [formData, setFormData] = useState({
@@ -6,7 +9,7 @@ const OrderForm = () => {
     lastName: '',
     email: '',
     address: '',
-    paymentMethod: 'efectivo', // Valor predeterminado: efectivo
+    paymentMethod: 'efectivo',
   });
 
   const handleChange = (e) => {
@@ -16,6 +19,32 @@ const OrderForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const db = firebase.firestore();
+    const productsRef = db.collection('productos');
+
+    cartItems.forEach((item) => {
+      const productDoc = productsRef.doc(item.id);
+      productDoc.get().then((doc) => {
+        if (doc.exists) {
+          const currentStock = doc.data().stock;
+          if (currentStock >= item.quantity) {
+            const newStock = currentStock - item.quantity;
+            productDoc.update({ stock: newStock })
+              .then(() => {
+                console.log(`Stock actualizado para ${item.title}`);
+              })
+              .catch((error) => {
+                console.error('Error al actualizar el stock:', error);
+              });
+          } else {
+            console.error(`No hay suficiente stock para ${item.title}`);
+          }
+        } else {
+          console.error(`El producto ${item.title} no existe en la base de datos`);
+        }
+      });
+    });
+
     alert(`Pedido enviado:\nNombres: ${formData.firstName}\nApellidos: ${formData.lastName}\nEmail: ${formData.email}\nDirección: ${formData.address}\nMétodo de pago: ${formData.paymentMethod}`);
   };
 
