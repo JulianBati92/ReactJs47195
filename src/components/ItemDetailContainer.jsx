@@ -52,10 +52,10 @@ const ItemDetailContainer = () => {
           <img
             src={item.image}
             alt={item.title}
-            style={{ width: '400px', height: '600px' }} 
+            style={{ width: '350px', height: '500px' }} 
           />
           <p>{item.description}</p>
-          <p>Precio: {item.price} USD</p>
+          <p>Precio: ${item.price} </p>
         </div>
       ) : (
         <p>Cargando producto...</p>

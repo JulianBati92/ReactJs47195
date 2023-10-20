@@ -10,7 +10,6 @@ import Formulario from './components/Form';
 import Checkout from './components/Checkout';
 import Terminos from './components/Terminos';
 import OrderForm from './components/OrderForm';
-
 import { CartContextProvider } from './components/CartContext';
 
 const App = () => {

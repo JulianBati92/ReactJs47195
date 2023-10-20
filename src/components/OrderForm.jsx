@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { db } from '../main'; 
+import { collection, addDoc, query, getDocs, where, updateDoc } from 'firebase/firestore';
 
 const OrderForm = () => {
   const [formData, setFormData] = useState({
@@ -17,35 +16,53 @@ const OrderForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const db = firebase.firestore();
-    const productsRef = db.collection('productos');
 
-    cartItems.forEach((item) => {
-      const productDoc = productsRef.doc(item.id);
-      productDoc.get().then((doc) => {
-        if (doc.exists) {
-          const currentStock = doc.data().stock;
-          if (currentStock >= item.quantity) {
-            const newStock = currentStock - item.quantity;
-            productDoc.update({ stock: newStock })
-              .then(() => {
-                console.log(`Stock actualizado para ${item.title}`);
-              })
-              .catch((error) => {
-                console.error('Error al actualizar el stock:', error);
-              });
-          } else {
-            console.error(`No hay suficiente stock para ${item.title}`);
-          }
-        } else {
-          console.error(`El producto ${item.title} no existe en la base de datos`);
-        }
+    const ordersCollection = collection(db, 'orders');
+    const productsCollection = collection(db, 'productos'); // Reemplaza 'productos' con el nombre real de tu colección de productos
+    const cartItems = []; // Reemplaza esto con tu lógica para obtener los elementos del carrito
+
+    try {
+      // 1. Primero, agrega el pedido a la colección de pedidos
+      const docRef = await addDoc(ordersCollection, {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        address: formData.address,
+        paymentMethod: formData.paymentMethod,
       });
-    });
 
-    alert(`Pedido enviado:\nNombres: ${formData.firstName}\nApellidos: ${formData.lastName}\nEmail: ${formData.email}\nDirección: ${formData.address}\nMétodo de pago: ${formData.paymentMethod}`);
+      // 2. Luego, recorre los productos en el carrito y actualiza el stock de cada producto
+      for (const item of cartItems) {
+        const productTitle = item.title; // Título del producto en el carrito
+
+        // Busca el producto en la colección de productos por su título
+        const query = query(productsCollection, where("title", "==", productTitle));
+        const querySnapshot = await getDocs(query);
+
+        if (!querySnapshot.empty) {
+          // Debería haber solo un producto con el título dado
+          const productDoc = querySnapshot.docs[0].ref;
+          const currentStock = querySnapshot.docs[0].data().stock;
+
+          // Calcula el nuevo stock restando la cantidad en el carrito
+          const newStock = currentStock - item.quantity;
+
+          // Actualiza el stock del producto en Firebase
+          await updateDoc(productDoc, { stock: newStock });
+
+          console.log(`Stock actualizado para ${productTitle}`);
+        } else {
+          console.error(`El producto ${productTitle} no existe en la base de datos`);
+        }
+      }
+
+      alert('Gracias por tu compra, Nos comunicaremos pronto por email. ID del pedido: ' + docRef.id);
+    } catch (error) {
+      console.error('Error al enviar el pedido:', error);
+      alert('Error al enviar el pedido. Por favor, inténtelo de nuevo.');
+    }
   };
 
   return (
