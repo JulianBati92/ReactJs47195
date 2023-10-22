@@ -33,19 +33,7 @@ const Navbar = () => {
             <Link to="/category/set" className="nav-link text-white me-4">Set</Link>
             <Link to="/category/bombilla" className="nav-link text-white">Bombilla</Link>
           </div>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon" style={{ backgroundColor: 'transparent' }}></span>
-          </button>
         </div>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
             <li className="nav-item">
               <button className="nav-link btn btn-link" onClick={toggleCart}>
@@ -54,7 +42,6 @@ const Navbar = () => {
               </button>
             </li>
           </ul>
-        </div>
       </div>
       {cartOpen && (
         <div className="cart-popup bg-dark position-absolute top-100 end-0 p-3">
