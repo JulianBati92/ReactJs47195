@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { CartContext } from './CartContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BsCart3 } from 'react-icons/bs';
-import tuMatteoliLogo from '../assets/tuMatteoliLogo.jpg'; 
+import tuMatteoliLogo from '../assets/tuMatteoliLogo.jpg';
 
 const Navbar = () => {
   const [cartOpen, setCartOpen] = useState(false);
@@ -28,6 +28,11 @@ const Navbar = () => {
           <Link to="/" className="navbar-brand">
             <img src={tuMatteoliLogo} alt="Tu Matteoli" style={{ width: '70px', height: '70px' }} />
           </Link>
+          <div className="d-flex align-items-center me-4"> 
+            <Link to="/category/mate" className="nav-link text-white me-4">Mate</Link>
+            <Link to="/category/set" className="nav-link text-white me-4">Set</Link>
+            <Link to="/category/bombilla" className="nav-link text-white">Bombilla</Link>
+          </div>
           <button
             className="navbar-toggler"
             type="button"
@@ -65,9 +70,7 @@ const Navbar = () => {
                 </li>
               ))}
               <p className="text-white">Total a pagar: ${cartItems.reduce((total, item) => total + item.price * item.quantity, 0)}</p>
-              <Link to="/checkout" className="btn btn-primary">
-                Ir al checkout
-              </Link>
+              <Link to="/checkout" className="btn btn-primary">Ir al checkout</Link>
             </ul>
           ) : (
             <p className="text-white">No hay productos en el carrito</p>
