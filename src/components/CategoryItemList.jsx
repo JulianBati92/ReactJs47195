@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { getDatabase, ref, get } from 'firebase/database';
+import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
 
 const CategoryItemList = () => {
   const [categoryProducts, setCategoryProducts] = useState([]);
@@ -20,20 +20,23 @@ const CategoryItemList = () => {
       appId: "1:796504982551:web:468aaa9f504abe74c74852"
     };
 
-    const database = getDatabase();
+    const db = getFirestore();
 
-    const categoryProductsRef = ref(database, 'products');
-    get(categoryProductsRef)
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          const productsData = Object.values(snapshot.val());
-          const filteredProducts = productsData.filter(product => product.categoryId === parseInt(id));
-          setCategoryProducts(filteredProducts);
-          setLoading(false);
-        }
+    const categoryRef = collection(db, 'category');
+
+    const queryRef = query(categoryRef, where('set', '==', id));
+
+    getDocs(queryRef)
+      .then((querySnapshot) => {
+        const products = [];
+        querySnapshot.forEach((doc) => {
+          products.push({ id: doc.id, ...doc.data() });
+        });
+        setCategoryProducts(products);
+        setLoading(false);
       })
       .catch((error) => {
-        console.error('Error al obtener productos desde Firebase: ', error);
+        console.error('Error al obtener productos desde Firestore: ', error);
       });
   }, [id]);
 
@@ -56,7 +59,9 @@ const CategoryItemList = () => {
                 <img src={product.image} className="card-img-top" alt={product.title} />
                 <div className="card-body">
                   <h5 className="card-title">{product.title}</h5>
-                  <p className="card-text">Precio: ${product.price} </p>
+                  <p className="card-text">Descripción: {product.description}</p>
+                  <p className="card-text">Precio: {product.price} U$S</p>
+                  <p className="card-text">Stock: {product.stock}</p>
                   <Link to={`/item/${product.id}`} className="btn btn-primary">
                     Detalles
                   </Link>
