@@ -31,7 +31,8 @@ const Navbar = () => {
           <div className="d-flex align-items-center me-4"> 
             <Link to="/category/mate" className="nav-link text-white me-4">Mate</Link>
             <Link to="/category/set" className="nav-link text-white me-4">Set</Link>
-            <Link to="/category/bombilla" className="nav-link text-white">Bombilla</Link>
+            <Link to="/category/bombilla" className="nav-link text-white me-4">Bombilla</Link>
+            <Link to="/category/termo" className="nav-link text-white">Termo</Link>
           </div>
         </div>
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
