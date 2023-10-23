@@ -5,7 +5,6 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ItemListContainer from './components/ItemListContainer';
 import ItemDetailContainer from './components/ItemDetailContainer';
-import CategoryItemList from './components/CategoryItemList';
 import Formulario from './components/Form';
 import Checkout from './components/Checkout';
 import Terminos from './components/Terminos';
@@ -23,7 +22,7 @@ const App = () => {
               path="/"
               element={<ItemListContainer greeting="¡Bienvenido a nuestra tienda en línea de mate argentino!" />}
             />
-            <Route path="/category/:id" element={<ItemListContainer greeting='Categoria' />} />
+            <Route path="/category/:id" element={<ItemListContainer greeting='Estas viendo' />} />
             <Route path="/item/:id" element={<ItemDetailContainer />} />
             <Route path="/contacto" element={<Formulario />} />
             <Route path="/checkout" element={<Checkout />} />
