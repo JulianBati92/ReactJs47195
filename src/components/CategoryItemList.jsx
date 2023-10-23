@@ -1,78 +1,52 @@
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
+import { db } from '../main';
 
-const CategoryItemList = () => {
-  const [categoryProducts, setCategoryProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-
+const ItemListContainer = ({ greeting }) => {
+  const [products, setProducts] = useState([]);
   const { id } = useParams();
-
   useEffect(() => {
-    setLoading(true);
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyBUd0NzHHzfTCOBUP-7rYMxn7MO9qsHGwA",
-      authDomain: "proyectoreactjsmatteoli.firebaseapp.com",
-      projectId: "proyectoreactjsmatteoli",
-      storageBucket: "proyectoreactjsmatteoli.appspot.com",
-      messagingSenderId: "796504982551",
-      appId: "1:796504982551:web:468aaa9f504abe74c74852"
+    const fetchData = async () => {
+      try {
+        const coleccionProductos = id ?  query(collection(db, "products"), where('category', '==', id)) : collection(db, "products");
+        const querySnapshot = await getDocs(coleccionProductos);
+        const productsList = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setProducts(productsList);
+      } catch (error) {
+        console.error('Error al obtener los productos: ', error);
+      }
     };
 
-    const db = getFirestore();
-
-    const categoryRef = collection(db, 'category');
-
-    const queryRef = query(categoryRef, where('set', '==', id));
-
-    getDocs(queryRef)
-      .then((querySnapshot) => {
-        const products = [];
-        querySnapshot.forEach((doc) => {
-          products.push({ id: doc.id, ...doc.data() });
-        });
-        setCategoryProducts(products);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error al obtener productos desde Firestore: ', error);
-      });
-  }, [id]);
-
+    fetchData();
+  }, [id]); 
+console.log(products)
   return (
     <div className="container mt-4 text-center" style={{ marginBottom: '200px' }}>
-      <h1>Categoría {id}</h1>
+      <h1>Bienvenido a "Tu Matteoli"</h1>
+      <p>{greeting} {id && <span>{id}</span>}</p>
 
-      {loading && (
-        <div>
-          <p>Cargando productos...</p>
-          <img src="/loading-45.gif" alt="Cargando productos" style={{ width: '50px', height: '50px' }} />
-        </div>
-      )}
-
-      {!loading && (
-        <div className="row">
-          {categoryProducts.map((product) => (
-            <div className="col-md-4" key={product.id}>
-              <div className="card mb-4">
-                <img src={product.image} className="card-img-top" alt={product.title} />
-                <div className="card-body">
-                  <h5 className="card-title">{product.title}</h5>
-                  <p className="card-text">Descripción: {product.description}</p>
-                  <p className="card-text">Precio: {product.price} U$S</p>
-                  <p className="card-text">Stock: {product.stock}</p>
-                  <Link to={`/item/${product.id}`} className="btn btn-primary">
-                    Detalles
-                  </Link>
-                </div>
+      <div className="row">
+        {products.map((product) => (
+          <div className="col-md-4" key={product.id}>
+            <div className="card mb-4">
+              <img src={product.image} className="card-img-top" alt={product.title} style={{ height: '500px', objectFit: '' }} />
+              <div className="card-body">
+                <h5 className="card-title">{product.title}</h5>
+                <p className="card-text">Precio: ${product.price} </p>
+                <Link to={`/item/${product.id}`} className="btn btn-primary">
+                  Detalles
+                </Link>
               </div>
             </div>
-          ))}
-        </div>
-      )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
 
-export default CategoryItemList;
+export default ItemListContainer;

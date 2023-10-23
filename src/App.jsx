@@ -23,7 +23,7 @@ const App = () => {
               path="/"
               element={<ItemListContainer greeting="¡Bienvenido a nuestra tienda en línea de mate argentino!" />}
             />
-            <Route path="/category/:id" element={<CategoryItemList />} />
+            <Route path="/category/:id" element={<ItemListContainer greeting='Categoria' />} />
             <Route path="/item/:id" element={<ItemDetailContainer />} />
             <Route path="/contacto" element={<Formulario />} />
             <Route path="/checkout" element={<Checkout />} />
